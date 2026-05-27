@@ -153,6 +153,23 @@ async def kit_add(interaction: discord.Interaction):
         return
     await interaction.response.send_modal(KitAddModal())
 
+# ========== +sobrenos ==========
+@bot.command(name="sobrenos")
+async def sobrenos(ctx):
+    embed = discord.Embed(
+        title="🔵🔴 Fortaleza Esporte Clube",
+        description=(
+            "O **Fortaleza Esporte Clube** é um time de futebol virtual fundado em **2026**, "
+            "com o propósito de reunir jogadores apaixonados pelo esporte em um ambiente competitivo, "
+            "respeitoso e, acima de tudo, divertido.\n\n"
+            "Nossa missão é proporcionar experiências memoráveis dentro e fora dos campos virtuais, "
+            "cultivando uma comunidade sólida onde o companheirismo e a dedicação são os pilares fundamentais.\n\n"
+            "**Seja bem-vindo ao Fortaleza EC — onde a diversão é levada a sério.**"
+        ),
+        color=0xC8102E
+    )
+    embed.set_footer(text="Fortaleza EC • Fundado em 2026")
+    await ctx.send(embed=embed)
 
 # ========== INICIAR ==========
 @bot.event
