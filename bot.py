@@ -29,6 +29,7 @@ async def ssver(ctx):
         "Juan_domorro0",
         "NuMbBrAtZx",
         "brchatgui",
+        "Sonic3536381",
     ]
     lista = "\n".join(f"{emoji} {j}" for j in jogadores)
     embed = discord.Embed(title="📋 SQUADSHEET", description=lista, color=0xC8102E)
