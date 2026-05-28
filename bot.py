@@ -209,6 +209,21 @@ async def on_voice_state_update(member, before, after):
             except Exception:
                 pass
 
+# ========== +lfvote ==========
+@bot.command(name="lfvote")
+async def lfvote(ctx):
+    await ctx.message.delete()
+
+    embed = discord.Embed(
+        title="🗳️ VOTE PARA LF",
+        description=f"**{ctx.author.display_name}** quer fazer um LF!\nVotem abaixo para confirmar presença.",
+        color=0x00FF88
+    )
+    embed.set_footer(text="Reaja com ✅ para confirmar")
+
+    msg = await ctx.send(embed=embed)
+    await msg.add_reaction("✅")
+
 
 # ========== INICIAR ==========
 @bot.event
