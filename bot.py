@@ -1,6 +1,5 @@
 import discord
 from discord import app_commands
-from discord.ext import commands
 from discord.ext import commands, tasks
 import json
 import os
@@ -8,6 +7,8 @@ import os
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix="+", intents=intents)
+
+CANAL_VOZ_ID = 1508170208525684937  # Troca pelo ID do canal de voz
 
 # ========== BANCO DE DADOS LOCAL ==========
 def carregar(arquivo):
@@ -106,7 +107,7 @@ class LFModal(discord.ui.Modal, title="Looking For — Abrir Sala"):
     link = discord.ui.TextInput(label="Link da Sala", placeholder="Cole o link aqui")
 
     async def on_submit(self, interaction: discord.Interaction):
-        embed = discord.Embed(title="🟢 SALA ABERTA", color=0x00FF88)
+        embed = discord.Embed(title="🟢 HOST ABERTO", color=0x00FF88)
         embed.add_field(name="👤 Host", value=self.nick.value, inline=True)
         embed.add_field(name="🔗 Link", value=self.link.value, inline=True)
         embed.set_footer(text=f"Aberta por {interaction.user.display_name}")
@@ -132,7 +133,6 @@ async def kit(interaction: discord.Interaction, id: str):
         embed.set_image(url=k["imagem"])
     await interaction.response.send_message(embed=embed)
 
-
 class KitAddModal(discord.ui.Modal, title="Cadastrar Kit"):
     kit_id = discord.ui.TextInput(label="ID do Kit", placeholder="Ex: kit01")
     descricao = discord.ui.TextInput(label="Descrição", placeholder="Ex: Kit titular 2025", required=False)
@@ -154,9 +154,10 @@ async def kit_add(interaction: discord.Interaction):
         return
     await interaction.response.send_modal(KitAddModal())
 
-# ========== +sobrenos ==========
-@bot.command(name="sobrenos")
-async def sobrenos(ctx):
+
+# ========== /sobrenos ==========
+@bot.tree.command(name="sobrenos", description="Conheça o Fortaleza EC")
+async def sobrenos(interaction: discord.Interaction):
     embed = discord.Embed(
         title="🔵🔴 Fortaleza Esporte Clube",
         description=(
@@ -170,36 +171,57 @@ async def sobrenos(ctx):
         color=0xC8102E
     )
     embed.set_footer(text="Fortaleza EC • Fundado em 2026")
-    await ctx.send(embed=embed)
+    await interaction.response.send_message(embed=embed)
+
 
 # ========== MANTER NA CALL ==========
-CANAL_VOZ_ID = 1508170208525684937  # Troca pelo ID do canal de voz
+@tasks.loop(minutes=5)
+async def manter_na_call():
+    for guild in bot.guilds:
+        voice_client = guild.voice_client
+        if voice_client is None:
+            canal = bot.get_channel(CANAL_VOZ_ID)
+            if canal:
+                try:
+                    await canal.connect()
+                except Exception:
+                    pass
+        elif not voice_client.is_connected():
+            try:
+                await voice_client.disconnect(force=True)
+                canal = bot.get_channel(CANAL_VOZ_ID)
+                if canal:
+                    await canal.connect()
+            except Exception:
+                pass
 
 @bot.event
 async def on_voice_state_update(member, before, after):
+    if member.id == bot.user.id:
+        return
     guild = member.guild
     voice_client = guild.voice_client
     if voice_client is None:
         canal = bot.get_channel(CANAL_VOZ_ID)
         if canal:
-            await canal.connect()
-
-@tasks.loop(minutes=5)
-async def manter_na_call():
-    for guild in bot.guilds:
-        if guild.voice_client is None:
-            canal = bot.get_channel(CANAL_VOZ_ID)
-            if canal:
+            try:
                 await canal.connect()
+            except Exception:
+                pass
+
 
 # ========== INICIAR ==========
 @bot.event
 async def on_ready():
     await bot.tree.sync()
     manter_na_call.start()
-    canal = bot.get_channel(CANAL_VOZ_ID)
-    if canal:
-        await canal.connect()
+    for guild in bot.guilds:
+        canal = bot.get_channel(CANAL_VOZ_ID)
+        if canal:
+            try:
+                await canal.connect()
+            except Exception:
+                pass
     print(f"✅ Bot online: {bot.user}")
 
 bot.run(os.environ["DISCORD_TOKEN"])
