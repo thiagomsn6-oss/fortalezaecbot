@@ -1,6 +1,7 @@
 import discord
 from discord import app_commands
 from discord.ext import commands
+from discord.ext import commands, tasks
 import json
 import os
 
@@ -171,10 +172,34 @@ async def sobrenos(ctx):
     embed.set_footer(text="Fortaleza EC • Fundado em 2026")
     await ctx.send(embed=embed)
 
+# ========== MANTER NA CALL ==========
+CANAL_VOZ_ID = 123456789  # Troca pelo ID do canal de voz
+
+@bot.event
+async def on_voice_state_update(member, before, after):
+    guild = member.guild
+    voice_client = guild.voice_client
+    if voice_client is None:
+        canal = bot.get_channel(CANAL_VOZ_ID)
+        if canal:
+            await canal.connect()
+
+@tasks.loop(minutes=5)
+async def manter_na_call():
+    for guild in bot.guilds:
+        if guild.voice_client is None:
+            canal = bot.get_channel(CANAL_VOZ_ID)
+            if canal:
+                await canal.connect()
+
 # ========== INICIAR ==========
 @bot.event
 async def on_ready():
     await bot.tree.sync()
+    manter_na_call.start()
+    canal = bot.get_channel(CANAL_VOZ_ID)
+    if canal:
+        await canal.connect()
     print(f"✅ Bot online: {bot.user}")
 
 bot.run(os.environ["DISCORD_TOKEN"])
