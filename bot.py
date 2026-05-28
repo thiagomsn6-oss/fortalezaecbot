@@ -180,7 +180,8 @@ async def lfvote(ctx):
     await ctx.message.delete()
     embed = discord.Embed(
         title="🗳️ VOTE PARA LF",
-        description=f"**{ctx.author.display_name}** quer fazer um LF!\nVotem abaixo para confirmar presença.",
+        description=f"**{ctx.author.display_name}** quer fazer um LF!\nVotem abaixo para confirmar presença.
+        @everyone",
         color=0x00FF88
     )
     embed.set_footer(text="Reaja com ✅ para confirmar")
