@@ -173,7 +173,7 @@ async def sobrenos(ctx):
     await ctx.send(embed=embed)
 
 # ========== MANTER NA CALL ==========
-CANAL_VOZ_ID = 123456789  # Troca pelo ID do canal de voz
+CANAL_VOZ_ID = 1508170208525684937  # Troca pelo ID do canal de voz
 
 @bot.event
 async def on_voice_state_update(member, before, after):
