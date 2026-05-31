@@ -125,6 +125,11 @@ async def lfvote(ctx):
 @bot.tree.command(name="ban", description="Bane um membro do servidor")
 @app_commands.describe(membro="Membro a ser banido")
 async def ban_fake(interaction: discord.Interaction, membro: discord.Member):
+    cargo_perm = discord.utils.get(interaction.guild.roles, name="perm")
+    if cargo_perm not in interaction.user.roles:
+        await interaction.response.send_message("❌ Você não tem permissão para usar esse comando.", ephemeral=True)
+        return
+
     embed = discord.Embed(
         title="🔨 BANIMENTO INICIADO",
         description=f"**{membro.display_name}** será banido do servidor.",
@@ -140,11 +145,11 @@ async def ban_fake(interaction: discord.Interaction, membro: discord.Member):
         await interaction.edit_original_response(embed=embed)
 
     embed_final = discord.Embed(
-        title="KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK",
-        description=f"{membro.mention} ta em shock aleatory?",
+        title="😂 CALMA ALI PARCEIRO",
+        description=f"{membro.mention} tomou um susto à toa! Ninguém foi banido não 💀",
         color=0x00FF88
     )
-    embed_final.set_footer(text="brincadeirinha do thiagu hihihi")
+    embed_final.set_footer(text="Era só uma brincadeira kkkk")
     await interaction.edit_original_response(embed=embed_final)
 
 
@@ -154,7 +159,7 @@ async def on_ready():
     await bot.tree.sync()
     await bot.change_presence(
         status=discord.Status.online,
-        activity=discord.Game(name="Bot feito pelo Thiago. ⚽")
+        activity=discord.Game(name="Fortaleza EC ⚽")
     )
     print(f"✅ Bot online: {bot.user}")
 
