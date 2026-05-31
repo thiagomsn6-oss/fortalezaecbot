@@ -181,6 +181,42 @@ async def sleepth(ctx):
     await ctx.send(embed=embed)
 
 
+# ========== DETECTOR DE "67" ==========
+@bot.event
+async def on_message(message):
+    if message.author.bot:
+        return
+
+    if message.content.strip() == "67":
+        embed = discord.Embed(
+            title="⚠️ INFRAÇÃO DETECTADA",
+            description=(
+                f"{message.author.mention} **sua conta está sendo analisada pela moderação.**\n\n"
+                f"📋 **Motivo:** Conduta inapropriada e infração às regras do servidor.\n"
+                f"🔨 **Punição:** Banimento permanente.\n\n"
+                f"O banimento será aplicado automaticamente em **10 segundos.**"
+            ),
+            color=0xFF0000
+        )
+        embed.set_footer(text="⏳ Banindo em 10 segundos...")
+        msg = await message.channel.send(embed=embed)
+
+        for i in range(10, 0, -1):
+            await asyncio.sleep(1)
+            embed.set_footer(text=f"⏳ Banindo em {i} segundo{'s' if i > 1 else ''}...")
+            await msg.edit(embed=embed)
+
+        embed_final = discord.Embed(
+            title="😂 LEVOU SUSTO?",
+            description=f"{message.author.mention} achou que ia ser banido né? Relaxa, era só uma brincadeira! 💀🤣",
+            color=0x00FF88
+        )
+        embed_final.set_footer(text="Da próxima vez pensa antes de mandar 67 👀")
+        await msg.edit(embed=embed_final)
+
+    await bot.process_commands(message)
+
+
 # ========== INICIAR ==========
 @bot.event
 async def on_ready():
