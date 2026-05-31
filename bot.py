@@ -3,6 +3,7 @@ from discord import app_commands
 from discord.ext import commands
 import json
 import os
+import asyncio
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -118,6 +119,33 @@ async def lfvote(ctx):
     embed.set_footer(text="Reaja com ✅ para confirmar")
     msg = await ctx.send(embed=embed)
     await msg.add_reaction("✅")
+
+
+# ========== /ban (sustinho) ==========
+@bot.tree.command(name="ban", description="Bane um membro do servidor")
+@app_commands.describe(membro="Membro a ser banido")
+async def ban_fake(interaction: discord.Interaction, membro: discord.Member):
+    embed = discord.Embed(
+        title="🔨 BANIMENTO INICIADO",
+        description=f"**{membro.display_name}** será banido do servidor.",
+        color=0xFF0000
+    )
+    embed.add_field(name="⚠️ Motivo", value="Conduta inadequada", inline=False)
+    embed.set_footer(text="O banimento será executado em 10 segundos...")
+    await interaction.response.send_message(embed=embed)
+
+    for i in range(10, 0, -1):
+        await asyncio.sleep(1)
+        embed.set_footer(text=f"⏳ Banindo em {i} segundo{'s' if i > 1 else ''}...")
+        await interaction.edit_original_response(embed=embed)
+
+    embed_final = discord.Embed(
+        title="😂 CALMA ALI PARCEIRO",
+        description=f"{membro.mention} tomou um susto à toa! Ninguém foi banido não 💀",
+        color=0x00FF88
+    )
+    embed_final.set_footer(text="Era só uma brincadeira kkkk")
+    await interaction.edit_original_response(embed=embed_final)
 
 
 # ========== INICIAR ==========
