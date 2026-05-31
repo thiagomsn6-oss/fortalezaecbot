@@ -30,6 +30,7 @@ async def ssver(ctx):
         "NuMbBrAtZx",
         "brchatgui",
         "Sonic3536381",
+        "ratodabamor",
         "GrilloKKJ067",
         "killiaenmbappe",
         "Lobo_10tiba",
