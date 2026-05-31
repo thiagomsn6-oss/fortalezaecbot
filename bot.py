@@ -140,11 +140,11 @@ async def ban_fake(interaction: discord.Interaction, membro: discord.Member):
         await interaction.edit_original_response(embed=embed)
 
     embed_final = discord.Embed(
-        title="😂 CALMA ALI PARCEIRO",
-        description=f"{membro.mention} tomou um susto à toa! Ninguém foi banido não 💀",
+        title="KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK",
+        description=f"{membro.mention} ta em shock aleatory?",
         color=0x00FF88
     )
-    embed_final.set_footer(text="Era só uma brincadeira kkkk")
+    embed_final.set_footer(text="brincadeirinha do thiagu hihihi")
     await interaction.edit_original_response(embed=embed_final)
 
 
