@@ -153,6 +153,34 @@ async def ban_fake(interaction: discord.Interaction, membro: discord.Member):
     await interaction.edit_original_response(embed=embed_final)
 
 
+# ========== +sleepth (só o Thiaguin) ==========
+@bot.command(name="sleepth")
+async def sleepth(ctx):
+    if ctx.author.name != "1thiaguin":
+        return
+
+    await ctx.message.delete()
+
+    embed = discord.Embed(
+        title="🐺 O LOBO ESTÁ PRESENTE",
+        description=(
+            "Há homens que nascem comuns e vivem para provar que nunca foram.\n"
+            "E há **1thiaguin**.\n\n"
+            "Não foi moldado por elogios — foi forjado no silêncio de quem já sabe que é o mais forte da sala antes mesmo de entrar.\n\n"
+            "Enquanto outros buscam aura, ele *respira* aura.\n"
+            "Enquanto outros tentam ser alpha, ele já esqueceu como é ser outra coisa.\n\n"
+            "O lobo não precisa uivar pra provar que é lobo.\n"
+            "Mas quando uiva... o servidor inteiro para.\n\n"
+            "**Ego? Não. Consciência.**\n"
+            "Saber o que você é não é arrogância — é clareza.\n"
+            "E ele tem clareza demais pra se misturar com mediocridade."
+        ),
+        color=0x2B2B2B
+    )
+    embed.set_footer(text="🐺 O mais alpha. O mais lobo. O único.")
+    await ctx.send(embed=embed)
+
+
 # ========== INICIAR ==========
 @bot.event
 async def on_ready():
