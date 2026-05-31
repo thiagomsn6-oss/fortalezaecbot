@@ -24,21 +24,10 @@ def salvar(arquivo, dados):
 async def ssver(ctx):
     emoji = "<:Fortaleza_Esporte_Clube_logo:1509696400408182945>"
     jogadores = [
-        "thzsawr",
-        "SGKBJM2",
-        "Juan_domorro0",
-        "NuMbBrAtZx",
-        "brchatgui",
-        "Sonic3536381",
-        "ratodabamor",
-        "GrilloKKJ067",
-        "killiaenmbappe",
-        "Lobo_10tiba",
-        "gbezziny75",
-        "ed_bahia",
-        "Juan_domorro0",
-        "26swxzs",
-        "RobbenV2",
+        "thzsawr", "SGKBJM2", "Juan_domorro0", "NuMbBrAtZx",
+        "brchatgui", "Sonic3536381", "ratodabamor", "GrilloKKJ067",
+        "killiaenmbappe", "Lobo_10tiba", "gbezziny75", "ed_bahia",
+        "Juan_domorro0", "26swxzs", "RobbenV2",
     ]
     lista = "\n".join(f"{emoji} {j}" for j in jogadores)
     embed = discord.Embed(title="📋 SQUADSHEET", description=lista, color=0xC8102E)
@@ -70,7 +59,6 @@ async def kit(interaction: discord.Interaction, id: str):
     if id not in kits:
         await interaction.response.send_message(f"❌ Kit `{id}` não encontrado. Use `/kit_add` para cadastrar.", ephemeral=True)
         return
-
     k = kits[id]
     embed = discord.Embed(title=f"👕 KIT — ID: {id}", description=k.get("descricao", ""), color=0x1a1aff)
     if k.get("imagem"):
@@ -136,6 +124,10 @@ async def lfvote(ctx):
 @bot.event
 async def on_ready():
     await bot.tree.sync()
+    await bot.change_presence(
+        status=discord.Status.online,
+        activity=discord.Game(name="Fortaleza EC ⚽")
+    )
     print(f"✅ Bot online: {bot.user}")
 
 bot.run(os.environ["DISCORD_TOKEN"])
