@@ -154,7 +154,7 @@ async def on_ready():
     await bot.tree.sync()
     await bot.change_presence(
         status=discord.Status.online,
-        activity=discord.Game(name="Fortaleza EC ⚽")
+        activity=discord.Game(name="Bot feito pelo Thiago. ⚽")
     )
     print(f"✅ Bot online: {bot.user}")
 
